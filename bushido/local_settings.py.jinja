@@ -1,0 +1,31 @@
+DEBUG = {{ bushido.debug }}
+SECRET_KEY = '{{bushido.secret_key}}'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': '{{bushido.database.name}}',
+        'USER': '{{bushido.database.user}}',
+        'PASSWORD': '{{bushido.database.password}}',
+        'HOST': '',
+        'PORT': '',
+    }
+}
+
+ALLOWED_HOSTS = [
+    {%- for host in bushido.allowed_hosts %}
+    '{{ host }}',
+    {%- endfor %}
+]
+
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/0",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}

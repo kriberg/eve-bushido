@@ -1,0 +1,4 @@
+Django==1.8.9
+pycrest
+pgcli
+psycopg2

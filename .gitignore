@@ -60,3 +60,9 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+
+.vagrant/
+.idea/
+
+bushido/local_settings.py
