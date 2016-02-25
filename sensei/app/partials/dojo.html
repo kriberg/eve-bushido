@@ -1,0 +1,51 @@
+<div class="row">
+    <div class="col-md-12 text-center">
+        <h1>Welcome to the dojo, {{capsuler.characterName}}.</h1>
+        May your time here be violent.
+    </div>
+    <div class="col-md-12" ng-show="online === false">
+        <h4>Offline</h4>
+        <p class="text-danger">You must be online in EVE to crush opponents. Please log in first.</p>
+        <button class="btn btn-success vertical-space" ng-click="getLocation()">I'm online now</button>
+    </div>
+    <div class="col-md-12" ng-show="online">
+        <h4>Location</h4>
+        <span ng-if="location">You are currently in {{location.solarSystem.name}}.</span>
+    </div>
+
+    <div class="col-md-12" ng-show="online">
+        <h4>Your ship class</h4>
+        <p class="text-muted">
+            Chose the ship class you will be fighting in.
+        </p>
+        <div class="vertical-space">
+            <div class="btn-group" role="group" aria-label="...">
+                <label class="btn btn-default" ng-click="selectedShip.tier = ''" ng-repeat="(type, tiers) in shipClassCombinations" ng-model="selectedShip.type" uib-btn-radio="type">{{type}}</label>
+            </div>
+        </div>
+        <div class="vertical-space">
+            <div class="btn-group" role="group" aria-label="..." ng-if="selectedShip.type">
+                <label class="btn btn-default" ng-repeat="tier in shipClassCombinations[selectedShip.type]" ng-model="selectedShip.tier" uib-btn-radio="tier">
+                    <img ng-src="img/{{tier}}.png" ng-if="tier != 't1'">{{tier}}
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12" ng-if="selectedShip.tier && selectedShip.type" ng-show="online">
+        <h4>Enemy ship classes</h4>
+        <p class="text-muted">
+            Chose which enemy ship classes you are willing to fight.
+        </p>
+        <div class="row vertical-space enemy-ships" ng-repeat="(type, tiers) in shipClassCombinations">
+            <span class="col-md-2">{{type}}</span>
+            <div class="btn-group col-md-10">
+                <label class="btn btn-default" ng-repeat="tier in tiers" ng-model="enemyShips[type + '.' + tier]" uib-btn-checkbox>
+                    <img ng-src="img/{{tier}}.png" ng-if="tier != 't1'">{{tier}}
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 vertical-space" ng-if="enemyShips && selectedShip.tier && selectedShip.type && online">
+        <button class="btn btn-primary btn-xlarge" ng-click="findOpponent()" ng-if="enemyShips && selectedShip.tier && selectedShip.type">Find opponent</button>
+    </div>
+</div>

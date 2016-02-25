@@ -1,5 +1,6 @@
 {% set bushido = salt["pillar.get"]("bushido", {}) %}
 {% set db = salt["pillar.get"]("postgres", {}) %}
+{% set crest = salt["pillar.get"]("crest", {}) %}
 
 include:
   - postgres
@@ -13,8 +14,10 @@ platform_dependencies:
       - libpq-dev
       - python-dev
       - redis-server
+      - npm
+      - nodejs-legacy
 
-bushido_venv:
+dojo_venv:
   cmd.run:
     - name: virtualenv /tmp/venv
     - onlyif: 'test ! -f /tmp/venv/bin/activate'
@@ -23,14 +26,14 @@ bushido_venv:
     - require:
       - pkg: platform_dependencies
 
-stationspinner reqs:
+dojo_reqs:
   cmd.run:
     - name: 'source /tmp/venv/bin/activate && pip install -r requirements.txt'
     - cwd: '/srv/www/bushido'
     - user: vagrant
     - shell: /bin/bash
     - require:
-      - cmd: bushido_venv
+      - cmd: dojo_venv
 
 dump_directory:
   file.directory:
@@ -77,24 +80,53 @@ import_sde:
     - require:
       - cmd: unpacked_dump
 
-bushido_local_settings:
+dojo_local_settings:
   file.managed:
-    - name: /srv/www/bushido/bushido/local_settings.py
-    - source: file:///srv/www/bushido/bushido/local_settings.py.jinja
+    - name: /srv/www/bushido/dojo/local_settings.py
+    - source: file:///srv/www/bushido/dojo/local_settings.py.jinja
     - template: jinja
     - user: vagrant
     - group: vagrant
     - context:
       bushido: {{ bushido|yaml }}
       db: {{ db|yaml }}
+      crest: {{ crest|yaml }}
 
-migrate_bushido:
+migrate_dojo:
   cmd.run:
     - name: 'source /tmp/venv/bin/activate && yes "yes" | python manage.py migrate'
     - cwd: '/srv/www/bushido/'
     - user: vagrant
     - shell: /bin/bash
     - require:
-      - file: bushido_local_settings
+      - file: dojo_local_settings
       - cmd: import_sde
-      - cmd: bushido_venv
+      - cmd: dojo_venv
+      - cmd: dojo_reqs
+
+sensei_node_dependencies:
+  cmd.run:
+    - name: 'npm install'
+    - cwd: '/srv/www/bushido/sensei/'
+    - user: vagrant
+    - shell: /bin/bash
+    - require:
+      - pkg: platform_dependencies
+
+sensei_dev_server:
+  cmd.run:
+    - name: 'npm i -g gulp bower'
+    - require:
+      - pkg: platform_dependencies
+
+sensei_config:
+  file.managed:
+    - name: /srv/www/bushido/sensei/app/config.js
+    - source: /srv/www/bushido/sensei/app/config.js.jinja
+    - template: jinja
+    - user: vagrant
+    - group: vagrant
+    - context:
+      bushido: {{ bushido|yaml }}
+      db: {{ db|yaml }}
+      crest: {{ crest|yaml }}

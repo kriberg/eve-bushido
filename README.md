@@ -4,6 +4,8 @@ Helping you find honorable pvp battle or dieing horribly in a tarp.
 
 ## About
 
+*tl;dr:* eve-bushido allows players to queue up and find a partner for duels.
+
 Created for socksfour's CREST challenge.
 
 ## Testing
@@ -41,4 +43,6 @@ Created for socksfour's CREST challenge.
 2. ``vagrant plugin install vagrant-vbguest``
 3. ``git clone https://github.com/kriberg/eve-bushido.git``
 4. ``cd eve-bushido``
-5. ``vagrant up``
+5. Copy the file ``salt/pillar/crest.sls.example`` to ``salt/pillar/crest.sls`` and
+   enter your CREST ClientID and Secret Key.
+6. ``vagrant up``

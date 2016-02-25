@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="col-md-12 text-center" ng-if="!userLoggedIn">
+        <h1>Welcome to the dojo</h1>
+
+        <a href="https://login.eveonline.com/oauth/authorize/?response_type=code&redirect_uri={{callbackURL}}&client_id={{clientID}}&scope=publicData characterLocationRead characterNavigationWrite characterContactsRead characterContactsWrite&state=none">
+            <img src="img/EVE_SSO_Login_Buttons_Large_White.png" alt="crest login">
+        </a>
+    </div>
+    <div class="col-md-12 text-center" ng-if="userLoggedIn">
+        <a ui-sref="dojo" class="btn btn-primary">Enter the dojo</a> <a href="/dojo/logout/" class="btn btn-default">Log out</a>
+    </div>
+</div>

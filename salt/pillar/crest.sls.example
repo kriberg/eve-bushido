@@ -1,0 +1,4 @@
+crest:
+  client_id: 'your client id here'
+  secret_key: 'your secret key here'
+  callback_url: 'http://localhost:8000/login/'

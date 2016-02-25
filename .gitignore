@@ -65,4 +65,8 @@ target/
 .vagrant/
 .idea/
 
-bushido/local_settings.py
+dojo/local_settings.py
+sensei/app/components
+sensei/node_modules
+salt/pillar/crest.sls
+sensei/app/config.js

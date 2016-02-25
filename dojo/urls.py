@@ -1,4 +1,4 @@
-"""bushido URL Configuration
+"""dojo URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.8/topics/http/urls/
@@ -14,7 +14,12 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from dojo.main.views import LoginView, CapsulerView, LogoutView, LocationView
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^dojo/login/', LoginView.as_view(), name='main_login'),
+    url(r'^dojo/logout/', LogoutView.as_view(), name='main_logout'),
+    url(r'^dojo/capsuler/', CapsulerView.as_view(), name='main_capsuler'),
+    url(r'^dojo/location/', LocationView.as_view(), name='main_location'),
+    url(r'^dojo/admin/', include(admin.site.urls)),
 ]

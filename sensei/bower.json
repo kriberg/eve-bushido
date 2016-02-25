@@ -1,0 +1,29 @@
+{
+  "name": "eve-bushido",
+  "description": "Enter the dojo and participate in honourable combat",
+  "main": "app/sensei.js",
+  "authors": [
+    "Kristian Berg"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/kriberg/eve-bushido",
+  "moduleType": [
+    "amd"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "app/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "angularjs#^1.5.0",
+    "angular-ui-router": "^0.2.18",
+    "ngFx": "ng-fx#^1.1.0",
+    "angular-resource": "^1.5.0",
+    "angular-route": "^1.5.0",
+    "angular-bootstrap": "^1.1.2"
+  }
+}
